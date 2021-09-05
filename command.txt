@@ -1,0 +1,12 @@
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path train_result/results_07 --dataset ucf101 --model_depth 50 --n_classes 1039 --batch_size 16 --n_threads 4 --checkpoint 50 --resnet_shortcut B --n_val_samples 1 --sample_duration 15 --pretrain_path r2p1d50_KM_200ep.pth --test_weight --n_finetune_classes 4 --ft_begin_index 4 --use_mix --n_epochs 15
+
+train
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json \
+--result_path train_result/results_07 --dataset ucf101 --n_classes 400 --n_finetune_classes 4 \
+--pretrain_path resnet-34-kinetics.pth --ft_begin_index 4 \
+--model resnet --model_depth 34 --resnet_shortcut A --batch_size 16 --n_threads 4 --checkpoint 5 --n_epochs 15 --sample_duration 15 --n_val_samples 1
+
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_06/best.pth --test_weight --sample_duration 15 --no_train
+
+test
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path train_result/results_07 --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path train_result/results_07/best.pth --test_weight --sample_duration 15 --no_train --no_val --test

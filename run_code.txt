@@ -1,0 +1,42 @@
+ Ggenerate n_frames files (每一個15frame資料夾裡產生一個n_frame)
+  python utils/n_frames_ucf101_hmdb51.py jpg_video_directory 
+
+ Generate json files(針對train test TXT產生json檔)
+  python utils/ucf101_json.py annotation_dir_path
+
+ Training in Winbus dataset
+  R(2+1)d:
+  train:
+   06: python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path train_result/results_07 --dataset ucf101 --model_depth 50 --n_classes 1039 --batch_size 16 --n_threads 4 --checkpoint 50 --resnet_shortcut B --n_val_samples 1 --sample_duration 15 --pretrain_path r2p1d50_KM_200ep.pth --test_weight --n_finetune_classes 4 --ft_begin_index 0 --use_mix --n_epochs 15
+
+
+  
+  val:
+   
+python main4winbus.py --root_path . --video_path traindata/cam1-07 --annotation_path data/cam1-07/cam1-07_01.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_06/best-06-lgd-2p1d-cbam-maxavg-962.pth --test_weight --sample_duration 15 --no_train
+
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_06/best.pth --test_weight --sample_duration 15 --no_train
+  
+  test:
+   python main4winbus.py --root_path . --video_path traindata/cam1-07 --annotation_path data/cam1-07/cam1-07_01.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_06/best-06-lgd-2p1d-cbam-maxavg-962.pth --test_weight --sample_duration 15 --no_train --no_val --test
+
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_06/best.pth --test_weight --sample_duration 15 --no_train --no_val --test
+
+
+--n_classes 有預訓練權重為預訓練權重類別，沒有預訓練權重為預計訓練的類別
+
+
+chun 
+
+slowfast 沒pretrain
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults/results_test --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 32 --n_threads 2 --checkpoint 50 --resnet_shortcut B --n_val_samples 1 --sample_duration 16 --test_weight --use_mix --n_epochs 81
+
+
+UCF資料 訓練預訓練權重
+python main4winbus.py --root_path . --video_path traindata/UCF-101 --annotation_path data/ucf-101/ucf101_01.json --result_path trainresults/results_ucf101_1 --dataset ucf101 --n_classes 101 --batch_size 16 --n_threads 2 --checkpoint 50 --resnet_shortcut B --sample_duration 16 --use_mix --n_epochs 200
+	val:python main4winbus.py --root_path . --video_path traindata/UCF-101 --annotation_path data/ucf-101/ucf101_01.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_ucf101_1/best.pth --test_weight --sample_duration 16 --no_train
+
+ 
+slowfast 有ucf pretrain
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults/results_slowfast_1 --dataset ucf101 --model_depth 50 --n_classes 101 --batch_size 32 --n_threads 2 --checkpoint 50 --resnet_shortcut B --n_val_samples 1 --sample_duration 16 --pretrain_path ucf101_pretrain_ep200.pth --test_weight --n_finetune_classes 4 --ft_begin_index 0 --use_mix --n_epochs 81
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults/results_slowfast_1 --dataset ucf101 --model_depth 50 --n_classes 101 --batch_size 32 --n_threads 2 --checkpoint 50 --resnet_shortcut B --n_val_samples 1 --sample_duration 16 --pretrain_path ucf101_pretrain_ep200_1.pth --test_weight --n_finetune_classes 4 --ft_begin_index 0 --use_mix --n_epochs 81
